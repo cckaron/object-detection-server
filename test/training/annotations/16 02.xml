@@ -1,0 +1,38 @@
+<annotation>
+	<folder>not label</folder>
+	<filename>16 02.jpg</filename>
+	<path>C:\darkflow\test\training\images\not label\16 02.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>720</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>366</xmin>
+			<ymin>170</ymin>
+			<xmax>502</xmax>
+			<ymax>351</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>552</xmin>
+			<ymin>159</ymin>
+			<xmax>668</xmax>
+			<ymax>348</ymax>
+		</bndbox>
+	</object>
+</annotation>

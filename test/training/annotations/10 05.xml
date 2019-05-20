@@ -1,0 +1,38 @@
+<annotation>
+	<folder>not labe</folder>
+	<filename>10 05.jpg</filename>
+	<path>C:\darkflow\test\training\images\not labe\10 05.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1280</width>
+		<height>720</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>579</xmin>
+			<ymin>336</ymin>
+			<xmax>708</xmax>
+			<ymax>489</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>car</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>750</xmin>
+			<ymin>179</ymin>
+			<xmax>859</xmax>
+			<ymax>304</ymax>
+		</bndbox>
+	</object>
+</annotation>
