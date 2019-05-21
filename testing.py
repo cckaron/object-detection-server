@@ -25,6 +25,7 @@ options = {"model": "cfg/yolo.cfg", "load": "bin/yolov2.weights", "threshold": 0
 tfnet = TFNet(options)
 #token = '4uYSu9DwcB8AnOBSleXZeRptHgsPWqjBpZrawAlvuqd'
 token = '36bGvXvbE6ZMOfruJSF5Poq7GDwHQAF6HmCcleehSoK'
+maintenance_url = 'http://127.0.0.1/api/maintenance/generate'
 
 count_dict = {"cam1":0, "cam2":0, "cam3":0, "cam4":0}
 OPEN_NOTIFY = False
@@ -61,6 +62,16 @@ def getCarCount(url, cam_id):
         r = requests.get(url, timeout=5)
     except:
         print("camID:", cam_id, " timeout.")
+        try:
+            headers = {'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjFcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1NTgzNDk5MTcsImV4cCI6MTU2Njk4OTkxNywibmJmIjoxNTU4MzQ5OTE3LCJqdGkiOiIxUlNTUlEwU0xDTFhHbEVGIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.Q42vS5ZghcT4uRAFccoQIZfBWHBBx8vLJ-BjYkuQDQY"}
+            payload = {'intersections_id': 1, 'content': '[C01]鏡頭1無回應'}
+            url = "C:/Users/Darkflow/Desktop/darkflow/cars/cam"+str(cam_id)+".jpg"
+            imageFile = {'imageFile': open(url, 'rb')}
+            maintenance = requests.post(maintenance_url, headers = headers, params=payload, files = imageFile)
+            print(maintenance.content)
+        except:
+            print('Laravel API Timeout')
+    finally:
         return 0
 
     curr_img = Image.open(BytesIO(r.content))
@@ -178,7 +189,7 @@ while True:
             currentRule = requests.get(judgeURL, timeout=2)
             print("Rule Judge: {id}".format(id=currentRule.content))
         except:
-            print("laravel time out")
+            print("Laravel API Timeout")
         finally:
             lastUpdated = int(round(time.time()))
 
