@@ -19,6 +19,7 @@ import queue
 import pygame 
 import boto3
 import json
+import webbrowser
 
 #darkflow
 options = {"model": "cfg/yolo.cfg", "load": "bin/yolov2.weights", "threshold": 0.1}
@@ -40,7 +41,7 @@ OPEN_NOTIFY = False
 OPEN_RULE = False
 
 #排程時間
-timegap = 6
+timegap = 1
 
 #記錄 物件辨識最後一次的執行時間
 lastUpdated = int(round(time.time()))
@@ -103,6 +104,11 @@ rule_status = font_title.render("手動", True, (255, 0, 0))
 screen.blit(rule_status_title, (840, 10))
 screen.blit(rule_status, (1100, 10))
 
+#開啟網站系統
+btn_openWebsite = pygame.image.load('images/icon_color.png')
+icon = pygame.transform.scale(icon_color, (80, 80))
+screen.blit(icon, (1200, 10))
+
 #推播
 notify_status_title = font_title.render("推播功能: ", True, (255, 255, 255))
 notify_status = font_title.render("關閉", True, (255, 0, 0))
@@ -113,7 +119,7 @@ screen.blit(notify_status, (1100, 70))
 pygame.display.update()
 
 #PIL draw on picture
-pilFont = ImageFont.truetype("NotoSansCJKtc-Regular.otf", 40)
+pilFont = ImageFont.truetype("fonts/NotoSansCJKtc-Regular.otf", 40)
 
 def pygame_event():
     global OPEN_NOTIFY
@@ -130,7 +136,7 @@ def pygame_event():
             if (pos[0] > 1100 and pos[0] < 1200):
                 #規則
                 if (pos[1] > 0 and pos[1] < 60):
-                    screen.fill(pygame.Color("black"), (1100, 0, 1200, 65))
+                    screen.fill(pygame.Color("black"), (1100, 0, 1500, 65))
                     if (OPEN_RULE == True):
                         OPEN_RULE = False
                         rule_status = font_title.render("手動", True, (255, 0, 0))
@@ -144,7 +150,7 @@ def pygame_event():
                     return True
                 #通知
                 elif (pos[1] > 60 and pos[1] < 120):
-                    screen.fill(pygame.Color("black"), (1100, 70, 1200, 120))
+                    screen.fill(pygame.Color("black"), (1100, 70, 1500, 120))
                     if (OPEN_NOTIFY == True):
                         OPEN_NOTIFY = False
                         notify_status = font_title.render("關閉", True, (255, 0, 0))
@@ -265,7 +271,7 @@ def getCarCount(url, cam_id):
             #laravel 產生維修單
             try:
                 headers = {'authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjFcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1NTgzNDk5MTcsImV4cCI6MTU2Njk4OTkxNywibmJmIjoxNTU4MzQ5OTE3LCJqdGkiOiIxUlNTUlEwU0xDTFhHbEVGIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.Q42vS5ZghcT4uRAFccoQIZfBWHBBx8vLJ-BjYkuQDQY"}
-                payload = {'intersections_id': 1, 'content': '地點: 中正路/建國一路交叉口 \n 錯誤事件:[C01]鏡頭1無回應'}
+                payload = {'intersections_id': 1, 'content': '[C01]鏡頭1無回應'}
                 url = "C:/Users/Darkflow/Desktop/darkflow/cars/cam"+str(cam_id)+".jpg"
                 imageFile = {'imageFile': open(url, 'rb')}
                 maintenance = requests.post(maintenance_url, headers = headers, params=payload, files = imageFile)
@@ -336,13 +342,13 @@ def drawCar(image, result):
                     image.rectangle([detection['topleft']['x'], detection['topleft']['y'] - 42, 
                             detection['topleft']['x'] + 80, detection['topleft']['y']],
                             fill=(99, 54, 254))
-                else:
+                else: #motorbike
                     image.rectangle([detection['topleft']['x'], detection['topleft']['y'], 
                             detection['bottomright']['x'], detection['bottomright']['y']],
                             outline=(255, 255, 0), width=5)
                     
                     image.rectangle([detection['topleft']['x'], detection['topleft']['y'] - 42, 
-                            detection['topleft']['x'] + 160, detection['topleft']['y']],
+                            detection['topleft']['x'] + 200, detection['topleft']['y']],
                             fill=(255, 255, 0))
                 image.text((detection['topleft']['x'] + 8, detection['topleft']['y'] - 48), detection['label'], font=pilFont, fill=(0,0,0,255))
 
@@ -417,8 +423,9 @@ def main():
             road2_car_count = count_dict["cam3"] + count_dict["cam4"]
             
             #規則比較
-            result = judgeRule(OPEN_RULE, road1_car_count, road2_car_count)
-            print(result)
+            if (OPEN_RULE):
+                result = judgeRule(OPEN_RULE, road1_car_count, road2_car_count)
+                print(result)
 
             #重置計時器
             lastUpdated = int(round(time.time()))
