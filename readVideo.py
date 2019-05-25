@@ -24,7 +24,7 @@ options = {"model": "cfg/yolo.cfg", "load": "bin/yolov2.weights", "threshold": 0
 tfnet = TFNet(options)
 
 #sys.argv[0]
-video = cv2.VideoCapture('video/IMG_1229.mp4')
+video = cv2.VideoCapture('video/1234.mp4')
 while video.isOpened():
     ret, frame = video.read()
     i = np.array(frame)
@@ -33,17 +33,17 @@ while video.isOpened():
     result = tfnet.return_predict(i)
 #        print(result)
     for detection in result:
-        if detection['label'] == 'car':   
-            cv2.rectangle(i, (detection['topleft']['x'], detection['topleft']['y']), 
-                            (detection['bottomright']['x'], detection['bottomright']['y']), 
-                            3)
-            cv2.putText(i, detection['label'], 
-                        (detection['topleft']['x'], detection['topleft']['y'] - 13),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 0), 1, cv2.LINE_AA)
+        # if detection['label'] == 'car':   
+        cv2.rectangle(i, (detection['topleft']['x'], detection['topleft']['y']), 
+                        (detection['bottomright']['x'], detection['bottomright']['y']), 
+                        3)
+        cv2.putText(i, detection['label'], 
+                    (detection['topleft']['x'], detection['topleft']['y'] - 13),
+                    cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 0), 1, cv2.LINE_AA)
 #            print(detection)
-            cv2.putText(i, str(math.floor(detection['confidence']*100)), 
-                        (detection['topleft']['x'], detection['topleft']['y'] + 13),
-                        cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA) 
+        # cv2.putText(i, str(math.floor(detection['confidence']*100)), 
+        #             (detection['topleft']['x'], detection['topleft']['y'] + 13),
+        #             cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1, cv2.LINE_AA) 
 
     cv2.imshow('i', i)
     if cv2.waitKey(1) == 27:

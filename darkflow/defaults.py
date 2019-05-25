@@ -22,7 +22,7 @@ class argHandler(dict):
         self.define('train', False, 'train the whole net')
         self.define('load', '', 'how to initialize the net? Either from .weights or a checkpoint, or even from scratch')
         self.define('savepb', False, 'save net and weight to a .pb file')
-        self.define('gpu', 0.4, 'how much gpu (from 0.0 to 1.0)')
+        self.define('gpu', 0.6, 'how much gpu (from 0.0 to 1.0)')
         self.define('gpuName', '/gpu:0', 'GPU device name')
         self.define('lr', 1e-5, 'learning rate')
         self.define('keep',20,'Number of most recent training results to save')
